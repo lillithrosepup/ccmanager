@@ -1,5 +1,12 @@
-print("Waiting for all nodes to boot")
-os.sleep(2)
+if not lvn.config.get("boot.skipWait") then
+  print("Waiting for all nodes to boot")
+  os.sleep(2)
+end
+
+lvn.config.define("boot.skipWait", {
+  description = "If defined, skips the 2s wait on boot",
+  type = "string",
+})
 
 local program = require('/lvn/core/program')
 
@@ -9,13 +16,14 @@ program.download('/lua/admin/eval.lua', '/run/eval.lua', 'eval', true)
 
 program.download('/lua/admin/turtle.lua', '/run/turtle.lua', 'turtle', true)
 
-program.download('/lua/admin/tardis.lua', '/run/tardis.lua', 'tardis', true)
-
 program.download('/lua/admin/debug.lua', '/run/debug.lua', 'debug', true)
 
 program.download('/lua/admin/packet.lua', '/run/packet.lua', 'packet', true)
 
 program.download('/lua/admin/reboot.lua', '/run/reboot.lua', 'reboot', true)
+
+program.download('/lua/admin/redremote.lua', '/run/redremote.lua', 'redremote', true)
+
 
 fs.makeDir("/run/win")
 program.download('/lua/admin/win/main.lua', '/run/win/main.lua', 'win', false)

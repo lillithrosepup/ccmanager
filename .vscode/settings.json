@@ -1,0 +1,11 @@
+{
+  "Lua.diagnostics.globals": [
+    "textutils",
+    "lvn",
+    "keys",
+    "sharedWs"
+  ],
+  "Lua.diagnostics.disable": [
+    "undefined-field"
+  ]
+}

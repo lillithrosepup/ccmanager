@@ -24,9 +24,8 @@ export class Node extends Client {
 		debug = false,
 		turtle: boolean = false,
 		command: boolean = false,
-		tardis: boolean = false
 	) {
-		super(ws, name, id, debug, turtle, command, tardis);
+		super(ws, name, id, debug, turtle, command);
 
 		const reportToAdmins = (
 			packet: ClientPacket<ClientPacketType> | ServerPacket<ServerPacketType>,

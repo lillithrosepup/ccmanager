@@ -90,7 +90,6 @@ if tArgs[1] == "control" then
     while true do
       -- Read key
       local event, key = os.pullEvent("key")
-
       if key == keys.w then
         sendAll("move", "forward")
       elseif key == keys.s then

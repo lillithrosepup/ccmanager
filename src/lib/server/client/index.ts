@@ -9,7 +9,6 @@ export class Client implements SerializableClient {
 	ws: ExtendedWebSocket;
 	turtle: boolean;
 	command: boolean;
-	tardis: boolean;
 
 	_debug: boolean = false;
 	get debug(): boolean {
@@ -38,7 +37,6 @@ export class Client implements SerializableClient {
 		debug = false,
 		turtle = false,
 		command = false,
-		tardis = false
 	) {
 		this.ws = ws;
 		this.name = name;
@@ -46,7 +44,6 @@ export class Client implements SerializableClient {
 		this.debug = debug;
 		this.turtle = turtle;
 		this.command = command;
-		this.tardis = tardis;
 
 		this.ws.on('close', (code, reason) => {
 			this.emit('close', code, reason.toString());

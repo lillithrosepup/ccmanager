@@ -38,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"@types/ws": "^8.5.13",
+		"dotenv": "^17.4.2",
 		"monaco-editor": "^0.47.0",
 		"tsm": "^2.3.0",
 		"ws": "^8.18.0"

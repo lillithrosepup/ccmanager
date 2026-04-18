@@ -20,10 +20,6 @@ export enum ClientPacketType {
 	Dig = 'dig',
 	Refuel = 'refuel',
 	TurtleMode = 'turtleMode',
-
-	// Tardis
-	GetTardisMethods = 'getTardisMethods',
-	ExecuteTardisMethod = 'executeTardisMethod',
 }
 
 export type ClientPacketData = {
@@ -59,15 +55,6 @@ export type ClientPacketData = {
 	[ClientPacketType.TurtleMode]: {
 		mode: string;
 		args: string[];
-	};
-
-
-	// Tardis
-	[ClientPacketType.GetTardisMethods]: Record<string, never>;
-	[ClientPacketType.ExecuteTardisMethod]: {
-		method: string;
-		args: string[];
-		nonce: string;
 	};
 };
 

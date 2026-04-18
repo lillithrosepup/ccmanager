@@ -59,8 +59,7 @@ const startupWebsocketServer = () => {
 							data.id,
 							data.debug || false,
 							data.turtle,
-							data.command,
-							data.tardis
+							data.command
 						);
 						ws.item = node;
 
@@ -95,7 +94,6 @@ const startupWebsocketServer = () => {
 							data.debug || false,
 							data.turtle,
 							data.command,
-							data.tardis
 						);
 						ws.item = admin;
 

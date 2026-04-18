@@ -1,4 +1,5 @@
 import { ClientType } from './types';
+import "dotenv/config"
 
 export interface ServerConfig {
 	connectPort: number;

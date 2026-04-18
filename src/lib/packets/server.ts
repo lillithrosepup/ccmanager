@@ -15,8 +15,6 @@ export enum ServerPacketType {
 	Command = 'command',
 	Chat = 'chat',
 	Packet = 'packet',
-	GetTardisMethods = 'getTardisMethods',
-	ExecuteTardisMethod = 'executeTardisMethod',
 }
 
 export type ServerPacketData = {
@@ -28,7 +26,6 @@ export type ServerPacketData = {
 		debug?: boolean;
 		turtle: boolean;
 		command: boolean;
-		tardis: boolean;
 	};
 	[ServerPacketType.Heartbeat]: number;
 	[ServerPacketType.Eval]: {
@@ -60,14 +57,6 @@ export type ServerPacketData = {
 	[ServerPacketType.Packet]: {
 		node: number | string;
 		packet: ClientPacket<ClientPacketType>;
-	};
-
-	// Tardis
-	[ServerPacketType.GetTardisMethods]: string[]
-	[ServerPacketType.ExecuteTardisMethod]: {
-		nonce: string;
-		success: boolean;
-		output: any;
 	};
 };
 

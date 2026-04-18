@@ -89,13 +89,13 @@ if lvn.config.get("constellation") then
   program.download('/lua/constellation/rednet.lua', '/run/constellation/rednet.lua', false, false)
 end
 
-local topPeripheralMethods = peripheral.getMethods("top")
-if topPeripheralMethods then
-  if lvn.utils.list.contains(topPeripheralMethods, "getDestinationDimension") then
-    fs.makeDir("/run/tardis")
-    program.download('/lua/tardis/main.lua', '/run/tardis/main.lua', "tardis", false)
-  end
-end
+-- local topPeripheralMethods = peripheral.getMethods("top")
+-- if topPeripheralMethods then
+--   -- if lvn.utils.list.contains(topPeripheralMethods, "getDestinationDimension") then
+--   --   fs.makeDir("/run/tardis")
+--   --   program.download('/lua/tardis/main.lua', '/run/tardis/main.lua', "tardis", false)
+--   -- end
+-- end
 
 os.loadAPI('/run/sharedWs.lua')
 os.loadAPI('/run/sharedRednet.lua')

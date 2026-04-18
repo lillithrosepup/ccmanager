@@ -11,9 +11,8 @@ export class Admin extends Client {
 		debug = false,
 		turtle: boolean,
 		command: boolean,
-		tardis: boolean
 	) {
-		super(ws, name, id, debug, turtle, command, tardis);
+		super(ws, name, id, debug, turtle, command);
 
 		this.on(ServerPacketType.Packet, (data: ServerPacketData[ServerPacketType.Packet]) => {
 			this.ws.wss.getNode(data.node)?.send(data.packet.type, data.packet.data);
