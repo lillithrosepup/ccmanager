@@ -1,4 +1,3 @@
-import { existsSync, readFileSync } from 'fs';
 import { ClientType } from './types';
 
 export interface ServerConfig {
@@ -10,7 +9,7 @@ export interface ServerConfig {
 		admin: string;
 		node: string;
 	};
-	waypointMode: 'xaero' | 'journey'
+	waypointMode: 'xaero' | 'journey';
 }
 
 export interface ClientBootConfig {
@@ -32,20 +31,16 @@ export interface NodeClientConfig extends BaseClientConfig {
 	name: string;
 }
 
-const defaultConfig: ServerConfig = {
-	connectPort: 8081,
-	connectHost: 'localhost',
-	ssl: false,
+const serverConfig: ServerConfig = {
+	connectPort: parseInt(process.env.CONNECT_PORT || '8081'),
+	connectHost: process.env.CONNECT_HOST || 'localhost',
+	ssl: process.env.SSL === 'true',
 
 	passwords: {
-		admin: 'admin',
-		node: 'node'
+		admin: process.env.ADMIN_PASSWORD || 'admin',
+		node: process.env.NODE_PASSWORD || 'node'
 	},
-	waypointMode: 'journey'
+	waypointMode: (process.env.WAYPOINT_MODE || 'journey') as 'xaero' | 'journey'
 };
-
-const serverConfig: ServerConfig = existsSync('config.json')
-	? JSON.parse(readFileSync('config.json', 'utf8'))
-	: defaultConfig;
 
 export default serverConfig;
