@@ -46,7 +46,6 @@ local node = tArgs[1]
 print("Starting control for node " .. node)
 
 local function send(type, data)
-  print("sending " .. type .. "with data " .. data)
   sharedWs.send("packet", {
     node = node,
     packet = {
@@ -62,7 +61,6 @@ while true do
   local event = eventData[1]
 
   if event == "key" and eventData[2] and not eventData[3] then
-    print(textutils.serialiseJSON(eventData))
     local key = eventData[2]
     if key == keys.w then
       send("turnOn", "front")
@@ -80,7 +78,6 @@ while true do
   end
   if event == "key_up" then
     local key = eventData[2]
-    print(key .. "up")
     if key == keys.w then
       send("turnOff", "front")
     elseif key == keys.s then
