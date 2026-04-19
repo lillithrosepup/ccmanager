@@ -16,7 +16,7 @@ local function checkCol(col, item)
       -- Loop all lower columns
       local moved
       
-
+      
       for i = lvn.sorter.curCol + 1, #lvn.sorter.cols do
         local col = lvn.sorter.cols[i]
         moved = checkCol(col, item)

@@ -5,6 +5,7 @@ if not lvn.config.get("constellation.x") then
   lvn.config.set("constellation.x", x)
   return
 end
+print("X: " .. lvn.config.get("constellation.x"))
 
 if not lvn.config.get("constellation.y") then
   print("You do not have a Y coordinate set.")
@@ -13,6 +14,7 @@ if not lvn.config.get("constellation.y") then
   lvn.config.set("constellation.y", y)
   return
 end
+print("Y: " .. lvn.config.get("constellation.y"))
 
 if not lvn.config.get("constellation.z") then
   print("You do not have a Z coordinate set.")
@@ -21,6 +23,16 @@ if not lvn.config.get("constellation.z") then
   lvn.config.set("constellation.z", z)
   return
 end
+print("Z: " .. lvn.config.get("constellation.z"))
+
+if not lvn.config.get("constellation.dimension") then
+  print("You do not have a dimension set.")
+  io.write("Please enter a dimension: ")
+  local dim = io.read("*l")
+  lvn.config.set("constellation.dimension", dim)
+  return
+end
+print("Dimension: " .. lvn.config.get("constellation.dimension"))
 
 
 
