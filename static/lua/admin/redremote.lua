@@ -71,9 +71,9 @@ while true do
     elseif key == keys.d then
       send("turnOn", "right")
     elseif key == keys.space then
-      send("turnOn", "up")
+      send("turnOn", "top")
     elseif key == keys.leftShift then
-      send("turnOn", "down")
+      send("turnOn", "bottom")
     end
   end
   if event == "key_up" then
@@ -87,9 +87,9 @@ while true do
     elseif key == keys.d then
       send("turnOff", "right")
     elseif key == keys.space then
-      send("turnOff", "up")
+      send("turnOff", "top")
     elseif key == keys.leftShift then
-      send("turnOff", "down")
+      send("turnOff", "bottom")
     end
   end
 end
