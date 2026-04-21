@@ -6,6 +6,14 @@ lvn.config.define("airship.maxspeed", {
   default = 15
 })
 
+
+
+lvn.config.define("airship.savedheight", {
+  description = "DO NOT MANUALLY SET -- The saved hight to persist reboots",
+  type = "number",
+  default = 0
+})
+
 -- sharedWs.registerPacketHandler("turnOn", function(data)
 --   redstone.setOutput(data, true)
 -- end)
@@ -14,12 +22,13 @@ local state = {
   speed = 0, -- 1 - max, 0 is stop
   turning = 0, -- -1 - 1
   reverse = false,
-  height = 0, -- 0 - 15
+  height = lvn.config.get("airship.savedheight"), -- 0 - 15
   horn = false,
 }
 
 local function updateOutputs()
   redstone.setAnalogOutput("top", state.height)
+  lvn.config.set("airship.savedheight")
   redstone.setOutput("back", state.reverse)
   redstone.setOutput("bottom", state.horn)
 
