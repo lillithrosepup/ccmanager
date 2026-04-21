@@ -28,7 +28,7 @@ local state = {
 
 local function updateOutputs()
   redstone.setAnalogOutput("top", state.height)
-  lvn.config.set("airship.savedheight")
+  lvn.config.set("airship.savedheight", state.height)
   redstone.setOutput("back", state.reverse)
   redstone.setOutput("bottom", state.horn)
 
