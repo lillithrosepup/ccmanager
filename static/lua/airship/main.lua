@@ -1,22 +1,22 @@
 print("This node is registered as an airship: " .. os.getComputerLabel())
 
-lvn.config.define("airship.maxspeed", {
-  description = "Cap for airship speed",
-  type = "number",
-  default = 15
-})
+lvn.config.define(
+  "airship.maxspeed",
+  {
+    description = "Cap for airship speed",
+    type = "number",
+    default = 15
+  }
+)
 
-
-
-lvn.config.define("airship.savedheight", {
-  description = "DO NOT MANUALLY SET -- The saved hight to persist reboots",
-  type = "number",
-  default = 0
-})
-
--- sharedWs.registerPacketHandler("turnOn", function(data)
---   redstone.setOutput(data, true)
--- end)
+lvn.config.define(
+  "airship.savedheight",
+  {
+    description = "DO NOT MANUALLY SET -- The saved hight to persist reboots",
+    type = "number",
+    default = 0
+  }
+)
 
 local state = {
   speed = 0, -- 1 - max, 0 is stop
@@ -24,25 +24,8 @@ local state = {
   reverse = false,
   height = lvn.config.get("airship.savedheight"), -- 0 - 15
   horn = false,
+  auxiliary = false
 }
-
-local function updateOutputs()
-  redstone.setAnalogOutput("top", state.height)
-  lvn.config.set("airship.savedheight", state.height)
-  redstone.setOutput("back", state.reverse)
-  redstone.setOutput("bottom", state.horn)
-
-  -- speed handler
-  local remappedSpeed = state.speed - 1
-  if remappedSpeed < 0 then 
-    remappedSpeed = 15
-  end
-  redstone.setAnalogOutput("front", remappedSpeed)
-
-  -- turn speed
-  redstone.setOutput("left", state.turning < 0)
-  redstone.setOutput("right", state.turning > 0)
-end
 
 local keysDown = {
   -- movement
@@ -66,15 +49,42 @@ local keysDown = {
   [keys.tab] = false
 }
 
-sharedWs.registerPacketHandler("keyDown", function(data)
-  keysDown[data] = true
-end)
-sharedWs.registerPacketHandler("keyUp", function(data)
-  keysDown[data] = false
-end)
+local function updateOutputs()
+  redstone.setAnalogOutput("top", state.height)
+  lvn.config.set("airship.savedheight", state.height)
+  redstone.setOutput("back", state.reverse)
+  redstone.setOutput("bottom", state.horn)
+
+  -- speed handler
+  local remappedSpeed = state.speed - 1
+  if remappedSpeed < 0 then
+    remappedSpeed = 15
+  end
+  redstone.setAnalogOutput("front", remappedSpeed)
+
+  -- turn speed
+  redstone.setOutput("left", state.turning < 0)
+  redstone.setOutput("right", state.turning > 0)
+end
+
+sharedWs.registerPacketHandler(
+  "keyDown",
+  function(key)
+    keysDown[key] = true
+
+    if key == keys.x then
+      state.auxiliary = not state.auxiliary
+    end
+  end
+)
+sharedWs.registerPacketHandler(
+  "keyUp",
+  function(data)
+    keysDown[data] = false
+  end
+)
 
 local tickIndex = 0
-
 
 local function updateInputs()
   -- debug
@@ -93,7 +103,7 @@ local function updateInputs()
   -- full speed
   if keysDown[keys.f] then
     print("full speed ahead!")
-    state.speed = 15
+    state.speed = lvn.config.get("airship.maxspeed")
   end
   state.reverse = keysDown[keys.r]
 
@@ -109,24 +119,38 @@ local function updateInputs()
     end
   end
 
-  if tickIndex % 5 == 0 then
+  if state.auxiliary then
     if keysDown[keys.w] and not keysDown[keys.s] then
-      state.speed = math.min(state.speed + 1, lvn.config.get("airship.maxspeed"))
-      print("Changing speed to " .. state.speed)
+      state.speed = 2
+      state.reverse = false
     else
       if keysDown[keys.s] and not keysDown[keys.w] then
-        state.speed = math.max(state.speed - 1, 0)
-        print("Changing speed to " .. state.speed)
+        state.speed = 2
+        state.reverse = true
+      else
+        state.speed = 0
       end
     end
+  else
+    if tickIndex % 5 == 0 then
+      if keysDown[keys.w] and not keysDown[keys.s] then
+        state.speed = math.min(state.speed + 1, lvn.config.get("airship.maxspeed"))
+        print("Changing speed to " .. state.speed)
+      else
+        if keysDown[keys.s] and not keysDown[keys.w] then
+          state.speed = math.max(state.speed - 1, 0)
+          print("Changing speed to " .. state.speed)
+        end
+      end
 
-    if keysDown[keys.space] and not keysDown[keys.leftShift] then
-      state.height = math.min(state.height + 1, 15)
-      print("Changing height to " .. state.height)
-    else
-      if keysDown[keys.leftShift] and not keysDown[keys.space] then
-        state.height = math.max(state.height - 1, 0)
+      if keysDown[keys.space] and not keysDown[keys.leftShift] then
+        state.height = math.min(state.height + 1, 15)
         print("Changing height to " .. state.height)
+      else
+        if keysDown[keys.leftShift] and not keysDown[keys.space] then
+          state.height = math.max(state.height - 1, 0)
+          print("Changing height to " .. state.height)
+        end
       end
     end
   end
