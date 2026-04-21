@@ -24,6 +24,8 @@ program.download('/lua/admin/reboot.lua', '/run/reboot.lua', 'reboot', true)
 
 program.download('/lua/admin/redremote.lua', '/run/redremote.lua', 'redremote', true)
 
+program.download('/lua/admin/airship.lua', '/run/airship.lua', 'airship', true)
+
 
 fs.makeDir("/run/win")
 program.download('/lua/admin/win/main.lua', '/run/win/main.lua', 'win', false)

@@ -4,6 +4,7 @@ export class SerializableClient {
 	debug: boolean;
 	turtle: boolean;
 	command: boolean;
+	airship: boolean;
 
 	constructor(client: SerializableClient) {
 		this.name = client.name;
@@ -11,5 +12,6 @@ export class SerializableClient {
 		this.debug = client.debug;
 		this.turtle = client.turtle;
 		this.command = client.command;
+		this.airship = client.airship;
 	}
 }

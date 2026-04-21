@@ -185,6 +185,7 @@ function connect()
       debug = lvn.config.get("debug"),
       turtle = turtle ~= nil,
       command = commands ~= nil,
+      airship = lvn.config.get("airship")
     })
     return true
   end

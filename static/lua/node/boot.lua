@@ -61,7 +61,7 @@ end
 
 lvn.config.define("constellation", {
   description = "Specify this node as a constellation node",
-  type = boolean,
+  type = "boolean",
   default = false
 })
 lvn.config.define("constellation.x", {
@@ -87,6 +87,18 @@ if lvn.config.get("constellation") then
   program.download('/lua/constellation/main.lua', '/run/constellation/main.lua', "constellation", false)
   program.download('/lua/constellation/ws.lua', '/run/constellation/ws.lua', false, false)
   program.download('/lua/constellation/rednet.lua', '/run/constellation/rednet.lua', false, false)
+end
+
+lvn.config.define("airship", {
+  description = "If this node is an airship controller",
+  type = "boolean"
+})
+
+if lvn.config.get("airship") then
+  fs.makeDir("/run/airship")
+  program.download('/lua/airship/main.lua', '/run/airship/main.lua', "constellation", false)
+  -- program.download('/lua/airship/ws.lua', '/run/airship/ws.lua', false, false)
+  -- program.download('/lua/airship/rednet.lua', '/run/airship/rednet.lua', false, false)
 end
 
 -- local topPeripheralMethods = peripheral.getMethods("top")

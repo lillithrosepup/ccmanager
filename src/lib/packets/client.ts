@@ -20,6 +20,8 @@ export enum ClientPacketType {
 	Dig = 'dig',
 	Refuel = 'refuel',
 	TurtleMode = 'turtleMode',
+	KeyDown = 'keyDown',
+	KeyUp = 'keyUp'
 }
 
 export type ClientPacketData = {
@@ -35,6 +37,8 @@ export type ClientPacketData = {
 	[ClientPacketType.Toggle]: Direction;
 	[ClientPacketType.TurnOn]: Direction;
 	[ClientPacketType.TurnOff]: Direction;
+	[ClientPacketType.KeyDown]: number;
+	[ClientPacketType.KeyUp]: number;
 	[ClientPacketType.Update]: Record<string, never>;
 	[ClientPacketType.SetDebug]: boolean;
 	[ClientPacketType.AdminNodePacket]: {

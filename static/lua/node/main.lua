@@ -33,6 +33,11 @@ if lvn.config.get("constellation") then
   program.run('/run/constellation/main.lua', 'Constellation', true)
 end
 
+if lvn.config.get("airship") then
+  print("Airship node detected")
+  program.run('/run/airship/main.lua', 'Airship', true)
+end
+
 -- local topPeripheralMethods = peripheral.getMethods("top")
 -- if topPeripheralMethods then
 --   if lvn.utils.list.contains(topPeripheralMethods, "getDestinationDimension") then

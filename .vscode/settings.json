@@ -3,7 +3,8 @@
     "textutils",
     "lvn",
     "keys",
-    "sharedWs"
+    "sharedWs",
+    "redstone"
   ],
   "Lua.diagnostics.disable": [
     "undefined-field"
