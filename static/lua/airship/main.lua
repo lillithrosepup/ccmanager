@@ -1,13 +1,17 @@
 print("This node is registered as an airship: " .. os.getComputerLabel())
 
-
+lvn.config.define("airship.maxspeed", {
+  description = "Cap for airship speed",
+  type = "number",
+  default = 15
+})
 
 -- sharedWs.registerPacketHandler("turnOn", function(data)
 --   redstone.setOutput(data, true)
 -- end)
 
 local state = {
-  speed = 0, -- 1 - 15, 0 is stop
+  speed = 0, -- 1 - max, 0 is stop
   turning = 0, -- -1 - 1
   reverse = false,
   height = 0, -- 0 - 15
@@ -22,7 +26,7 @@ local function updateOutputs()
   -- speed handler
   local remappedSpeed = state.speed - 1
   if remappedSpeed < 0 then 
-    remappedSpeed = 15
+    remappedSpeed = lvn.config.get("airship.maxspeed")
   end
   redstone.setAnalogOutput("front", remappedSpeed)
 
@@ -98,7 +102,7 @@ local function updateInputs()
 
   if tickIndex % 5 == 0 then
     if keysDown[keys.w] and not keysDown[keys.s] then
-      state.speed = math.min(state.speed + 1, 15)
+      state.speed = math.min(state.speed + 1, lvn.config.get("airship.maxspeed"))
       print("Changing speed to " .. state.speed)
     else
       if keysDown[keys.s] and not keysDown[keys.w] then

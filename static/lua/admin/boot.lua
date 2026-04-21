@@ -1,3 +1,15 @@
+lvn.config.define("admin.password", {
+  description = "The password to access the admin interface",
+  type = "string",
+})
+if not lvn.config.get("admin.password") then
+  print("You do not have a password set.")
+  io.write("Please enter a password: ")
+  local password = io.read("*l")
+
+  lvn.config.set("admin.password", password)
+end
+
 if not lvn.config.get("boot.skipWait") then
   print("Waiting for all nodes to boot")
   os.sleep(2)
@@ -44,19 +56,6 @@ os.loadAPI('/run/sharedRednet.lua')
 program.run('/run/sharedWs.lua', 'Websocket Runner', false, "loop")
 program.run('/run/sharedRednet.lua', 'Rednet Runner', false, "loop")
 
-lvn.config.define("admin.password", {
-  description = "The password to access the admin interface",
-  type = "string",
-})
-
-
-if not lvn.config.get("admin.password") then
-  print("You do not have a password set.")
-  io.write("Please enter a password: ")
-  local password = io.read("*l")
-
-  lvn.config.set("admin.password", password)
-end
 
 -- if peripheral.find("monitor") then
 --   shell.run("/run/win/main.lua")
