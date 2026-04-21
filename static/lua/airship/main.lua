@@ -11,6 +11,7 @@ local state = {
   turning = 0, -- -1 - 1
   reverse = false,
   height = 0, -- 0 - 15
+  horn = false,
 }
 
 local function updateOutputs()
@@ -46,7 +47,9 @@ local keysDown = {
   -- full speed
   [keys.f] = false,
   -- debug log
-  [keys.m] = false
+  [keys.m] = false,
+  -- HORN
+  [keys.tab] = false
 }
 
 sharedWs.registerPacketHandler("keyDown", function(data)
@@ -64,6 +67,7 @@ local function updateInputs()
   if keysDown[keys.m] then
     print(textutils.serialiseJSON(state))
   end
+  state.horn = keysDown[keys.tab]
   -- brake
   if keysDown[keys.e] then
     print("HAND BRAKE")
