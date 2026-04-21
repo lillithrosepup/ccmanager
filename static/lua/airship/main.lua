@@ -17,6 +17,7 @@ local state = {
 local function updateOutputs()
   redstone.setAnalogOutput("top", state.height)
   redstone.setOutput("back", state.reverse)
+  redstone.setOutput("bottom", state.horn)
 
   -- speed handler
   local remappedSpeed = state.speed - 1
