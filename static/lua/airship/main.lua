@@ -26,7 +26,7 @@ local function updateOutputs()
   -- speed handler
   local remappedSpeed = state.speed - 1
   if remappedSpeed < 0 then 
-    remappedSpeed = lvn.config.get("airship.maxspeed")
+    remappedSpeed = 15
   end
   redstone.setAnalogOutput("front", remappedSpeed)
 
