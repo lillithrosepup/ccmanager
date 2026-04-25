@@ -17,6 +17,6 @@ os.loadAPI("/run/ws.lua")
 program.download("/wsPackets.lua", "/run/wsPackets.lua", false, false)
 require("/run/wsPackets")
 
-program.run("/run/ws.lua", "Websocket Runner", true, "loop")
+program.run("/run/ws.lua", "Websocket Runner", false, "loop")
 
 program.download("/programs/reboot.lua", "/ccmgr/programs/reboot.lua", "reboot", true)

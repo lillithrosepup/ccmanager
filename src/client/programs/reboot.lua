@@ -2,7 +2,6 @@ local completion = require("/ccmgr/lib/completion")
 
 completion.setCompletionFunction(
   function()
-    print("Completion Running")
     local ccCompletion = require("cc.shell.completion")
     local possibleNodes = {}
 
