@@ -1,7 +1,10 @@
 local function getPasswordCookie()
     local type = lvn.config.get("boot.type")
     local password = lvn.config.get(type .. ".password")
-    return "password=" .. password
+    if password then
+        return "password=" .. password
+    end
+    return nil
 end
 
 local function downloadFile(url, path)

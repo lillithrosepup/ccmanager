@@ -1,8 +1,8 @@
 import serverConfig, { type ServerConfig } from '$lib/config';
-import { json, text, type RequestHandler } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async () => {
 	const config: Partial<ServerConfig> = Object.assign({}, serverConfig);
-    delete config.passwords;
-    return json(config);
+	delete config.passwords;
+	return json(config);
 };

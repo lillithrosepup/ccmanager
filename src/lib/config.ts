@@ -1,5 +1,5 @@
 import { ClientType } from './types';
-import "dotenv/config"
+import 'dotenv/config';
 
 export interface ServerConfig {
 	connectPort: number;
@@ -11,6 +11,7 @@ export interface ServerConfig {
 		node: string;
 	};
 	waypointMode: 'xaero' | 'journey';
+	migrationLevel: number;
 }
 
 export interface ClientBootConfig {
@@ -41,7 +42,8 @@ const serverConfig: ServerConfig = {
 		admin: process.env.ADMIN_PASSWORD || 'admin',
 		node: process.env.NODE_PASSWORD || 'node'
 	},
-	waypointMode: (process.env.WAYPOINT_MODE || 'journey') as 'xaero' | 'journey'
+	waypointMode: (process.env.WAYPOINT_MODE || 'journey') as 'xaero' | 'journey',
+	migrationLevel: 1
 };
 
 export default serverConfig;

@@ -8,7 +8,7 @@ if shell then
 
   local completion = require("cc.shell.completion")
 
-  local complete = completion.build({ completion.choice, { "update", "boot"}}, { completion.choice, {"node", "admin"} })
+  local complete = completion.build({completion.choice, {"update", "boot"}}, {completion.choice, {"node", "admin"}})
 
   shell.setCompletionFunction(shell.getRunningProgram(), complete)
 end
@@ -20,31 +20,50 @@ os.loadAPI("/lvn/core/urls.lua")
 os.loadAPI("/lvn/core/utils.lua")
 os.loadAPI("/lvn/core/chat.lua")
 
-lvn.config.define("debug", {
-  description = "Log websocket and http messages",
-  type = boolean,
-  default = false
-})
+lvn.config.define(
+  "debug",
+  {
+    description = "Log websocket and http messages",
+    type = boolean,
+    default = false
+  }
+)
 
-lvn.config.define("boot.type", {
-  description = "The type of boot to run",
-  type = "string",
-})
+lvn.config.define(
+  "boot.type",
+  {
+    description = "The type of boot to run",
+    type = "string"
+  }
+)
 
-lvn.config.define("boot.customBootUrl", {
-  description = "The url to download the boot file from",
-  type = "string",
-})
+lvn.config.define(
+  "boot.customBootUrl",
+  {
+    description = "The url to download the boot file from",
+    type = "string"
+  }
+)
 
-local tArgs = { ... }
+local tArgs = {...}
 
 if fs.exists("/run") then
   fs.delete("/run")
 end
 fs.makeDir("/run")
 
-if tArgs[1] == "update" then
+lvn.config.define(
+  "boot.migrationLevel",
+  {
+    description = "if this does not match server, it will autoupdate the bootloader.",
+    type = "number"
+  }
+)
 
+local configStr = lvn.net.get("/api/config")
+local config = textutils.unserializeJSON(configStr)
+if tArgs[1] == "update" or config.migrationLevel ~= lvn.config.get("boot.migrationLevel") then
+  print("Updating bootloader...")
   lvn.net.downloadFile("/lua/update.lua", "/run/update.lua")
   os.run({}, "/run/update.lua")
 
@@ -57,7 +76,6 @@ if tArgs[1] == "boot" and tArgs[2] then
 else
   print("booting...")
 end
-
 
 if fs.exists("/run") then
   fs.delete("/run")
