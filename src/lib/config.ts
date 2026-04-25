@@ -43,7 +43,7 @@ const serverConfig: ServerConfig = {
 		node: process.env.NODE_PASSWORD || 'node'
 	},
 	waypointMode: (process.env.WAYPOINT_MODE || 'journey') as 'xaero' | 'journey',
-	migrationLevel: 1
+	migrationLevel: 2
 };
 
 export default serverConfig;
