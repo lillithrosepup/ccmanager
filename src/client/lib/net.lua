@@ -12,7 +12,10 @@ end
 local function get(url, nocreds, nolog)
     local url = url
     if url:find("^/") then
-        url = ccmgr.urls.httpBase .. url
+        url =
+            "http" ..
+            (ccmgr.config.get("boot.ssl") and "s" or "") ..
+                "://" .. ccmgr.config.get("boot.host") .. ":" .. ccmgr.config.get("boot.port") .. url
     end
     if ccmgr.config.get("debug") and not nolog then
         print("GET: " .. url)
@@ -31,7 +34,6 @@ local function get(url, nocreds, nolog)
             print("GET: " .. url)
         end
         printError("GET failed: ", e)
-        ccmgr.chat.send("GET failed: " .. e)
         return false
     end
     local fileContents = file.readAll()
@@ -45,7 +47,10 @@ end
 local function post(url, data)
     local url = url
     if url:find("^/") then
-        url = ccmgr.urls.httpBase .. url
+        url =
+            "http" ..
+            (ccmgr.config.get("boot.ssl") and "s" or "") ..
+                "://" .. ccmgr.config.get("boot.host") .. ":" .. ccmgr.config.get("boot.port") .. url
     end
     if ccmgr.config.get("debug") then
         print("POST: " .. url)

@@ -5,6 +5,7 @@ import { C2SPacket, S2CPacket, C2SHandlers } from "./packets";
 import z from "zod";
 import { join } from "node:path";
 import envVars from "./environment";
+import logixlysia from "logixlysia";
 
 export type Client = {
   wsId: string;
@@ -42,6 +43,7 @@ async function renderTemplate(
 }
 
 const server = new Elysia()
+  .use(logixlysia())
   .get("/setup", ({ headers }) =>
     headers["user-agent"]?.includes("computercraft")
       ? renderTemplate("setup", {
@@ -74,7 +76,10 @@ const server = new Elysia()
     // }),
     query: z.object({
       nodeName: z.string(),
-      flags: z.array(z.string()).optional(),
+      flags: z.preprocess(
+        (val) => (typeof val === "string" ? [val] : val),
+        z.array(z.string()).optional(),
+      ),
     }),
     open(ws) {
       // TODO: auth

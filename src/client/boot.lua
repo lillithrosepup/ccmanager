@@ -13,11 +13,10 @@ if shell then
   shell.setCompletionFunction(shell.getRunningProgram(), complete)
 end
 
-os.loadAPI("/ccmgr/core/ccmgr.lua")
-os.loadAPI("/ccmgr/core/config.lua")
-os.loadAPI("/ccmgr/core/net.lua")
-os.loadAPI("/ccmgr/core/urls.lua")
-os.loadAPI("/ccmgr/core/utils.lua")
+os.loadAPI("/ccmgr/lib/ccmgr.lua")
+os.loadAPI("/ccmgr/lib/config.lua")
+os.loadAPI("/ccmgr/lib/net.lua")
+os.loadAPI("/ccmgr/lib/utils.lua")
 
 local tArgs = {...}
 
@@ -62,8 +61,6 @@ else
 end
 
 if not success then
-  ccmgr.chat.send("Failed to download main.lua")
-
   sleep(5)
 
   os.reboot()
@@ -73,8 +70,6 @@ print("Running boot.lua")
 
 local success = pcall(shell.run, "/run/main.lua")
 if not success then
-  ccmgr.chat.send("Failed to run main.lua")
-
   sleep(5)
 
   os.reboot()

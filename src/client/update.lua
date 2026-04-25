@@ -9,25 +9,22 @@ print("Downloading boot.lua...")
 ccmgr.net.downloadFile("/client/boot.lua", "/startup/boot.lua")
 
 print("Downloading config.lua...")
-ccmgr.net.downloadFile("/client/core/config.lua", "/ccmgr/core/config.lua")
+ccmgr.net.downloadFile("/client/lib/config.lua", "/ccmgr/lib/config.lua")
 
 print("Downloading net.lua...")
-ccmgr.net.downloadFile("/client/core/net.lua", "/ccmgr/core/net.lua")
-
-print("Downloading urls.lua...")
-ccmgr.net.downloadFile("/client/core/urls.lua", "/ccmgr/core/urls.lua")
+ccmgr.net.downloadFile("/client/lib/net.lua", "/ccmgr/lib/net.lua")
 
 print("Downloading utils.lua...")
-ccmgr.net.downloadFile("/client/core/utils.lua", "/ccmgr/core/utils.lua")
+ccmgr.net.downloadFile("/client/lib/utils.lua", "/ccmgr/lib/utils.lua")
 
 print("Downloading program.lua...")
-ccmgr.net.downloadFile("/client/core/program.lua", "/ccmgr/core/program.lua")
+ccmgr.net.downloadFile("/client/lib/program.lua", "/ccmgr/lib/program.lua")
 
 print("Downloading completion.lua...")
-ccmgr.net.downloadFile("/client/core/completion.lua", "/ccmgr/core/completion.lua")
+ccmgr.net.downloadFile("/client/lib/completion.lua", "/ccmgr/lib/completion.lua")
 
 print("Downloading ccmgr.lua...")
-ccmgr.net.downloadFile("/client/core/ccmgr.lua", "/ccmgr/core/ccmgr.lua")
+ccmgr.net.downloadFile("/client/lib/ccmgr.lua", "/ccmgr/lib/ccmgr.lua")
 
 local migLevel = ccmgr.net.get("/api/migration")
 print("New migration level: " .. migLevel)

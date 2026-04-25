@@ -42,19 +42,17 @@ end
 
 downloadFile("/boot.lua", "/startup/boot.lua")
 
-downloadFile("/core/config.lua", "/ccmgr/core/config.lua")
+downloadFile("/lib/config.lua", "/ccmgr/lib/config.lua")
 
-downloadFile("/core/net.lua", "/ccmgr/core/net.lua")
+downloadFile("/lib/net.lua", "/ccmgr/lib/net.lua")
 
-downloadFile("/core/urls.lua", "/ccmgr/core/urls.lua")
+downloadFile("/lib/utils.lua", "/ccmgr/lib/utils.lua")
 
-downloadFile("/core/utils.lua", "/ccmgr/core/utils.lua")
+downloadFile("/lib/program.lua", "/ccmgr/lib/program.lua")
 
-downloadFile("/core/program.lua", "/ccmgr/core/program.lua")
+downloadFile("/lib/completion.lua", "/ccmgr/lib/completion.lua")
 
-downloadFile("/core/completion.lua", "/ccmgr/core/completion.lua")
-
-downloadFile("/core/ccmgr.lua", "/ccmgr/core/ccmgr.lua")
+downloadFile("/lib/ccmgr.lua", "/ccmgr/lib/ccmgr.lua")
 
 print("Setup complete")
 

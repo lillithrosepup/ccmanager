@@ -2,7 +2,6 @@ local program = {
   download = function(url, path, alias, completion)
     local success = ccmgr.net.downloadFile(url, path)
     if not success then
-      ccmgr.chat.send("Failed to download " .. url)
       return false
     end
 

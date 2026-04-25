@@ -3,6 +3,7 @@
     "shell",
     "ccmgr",
     "multishell",
-    "fs"
+    "fs",
+    "ws"
   ]
 }
