@@ -1,19 +1,21 @@
 {
   "name": "ccmanager",
-  "module": "src/index.ts",
+  "module": "src/server/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun src/index.ts",
-    "dev": "bun --watch src/index.ts"
+    "start": "bun src/server/index.ts",
+    "dev": "bun --watch src/server/index.ts"
   },
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^25.6.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "@elysia/static": "^1.4.10",
     "elysia": "^1.4.28",
     "zod": "^4.3.6"
   }

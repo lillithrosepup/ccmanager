@@ -1,8 +1,11 @@
 import type { MaybePromise } from "bun";
 import z from "zod";
-import { clients, type Client } from ".";
+import { clients, sendAll, type Client } from ".";
 
 export const S2CPacket = z.discriminatedUnion("t", [
+  z.object({
+    t: z.literal("update"),
+  }),
   z.object({
     t: z.literal("nodeConnect"),
     name: z.string(),
@@ -30,12 +33,23 @@ export const C2SHandlers: Record<
 > = {
   globalUpdate: (data) => {
     if (data.t !== "globalUpdate") return;
-    console.log("Updating all clients...");
+    sendAll({ t: "update" });
   },
-  sendToClient: (data) => {
+  sendToClient: (data, client) => {
     if (data.t !== "sendToClient") return;
-    const targetClient = clients.get(data.client);
-    if (!targetClient) return;
-    targetClient.send(data.packet);
+    switch (data.client) {
+      case "all":
+        sendAll(data.packet);
+        break;
+      case "self":
+        // idk why youd wanna do this but okay man
+        client.send(data.packet);
+        break;
+      default: {
+        const targetClient = clients.get(data.client);
+        if (!targetClient) return;
+        targetClient.send(data.packet);
+      }
+    }
   },
 };

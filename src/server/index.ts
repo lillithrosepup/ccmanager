@@ -1,7 +1,10 @@
 import Elysia from "elysia";
+import { staticPlugin } from "@elysia/static";
 import { MIGRATION_LEVEL } from "./constants";
 import { C2SPacket, S2CPacket, C2SHandlers } from "./packets";
 import z from "zod";
+import { join } from "node:path";
+import envVars from "./environment";
 
 export type Client = {
   wsId: string;
@@ -20,8 +23,50 @@ export function sendAll(data: z.input<typeof S2CPacket>) {
   }
 }
 
+const CLIENT_FOLDER = join(import.meta.dir, "../client");
+
+async function renderTemplate(
+  fileName: string,
+  vars: Record<string, string | number | boolean>,
+) {
+  return await Bun.file(join(CLIENT_FOLDER, `${fileName}.tmpl.lua`))
+    .text()
+    .then((text) =>
+      text.replace(/\{(\w+)\}/g, (_, key) => {
+        const val = vars[key];
+        if (val === undefined) return "";
+        if (typeof val === "boolean") return val ? "true" : "false";
+        return String(val);
+      }),
+    );
+}
+
 const server = new Elysia()
-  .get("/migration", () => MIGRATION_LEVEL)
+  .get("/setup", ({ headers }) =>
+    headers["user-agent"]?.includes("computercraft")
+      ? renderTemplate("setup", {
+          isSSL: envVars.SSL,
+          connectHost: envVars.HOST,
+          connectPort: envVars.PORT ? envVars.PORT : envVars.SSL ? 443 : 80,
+        })
+      : `wget run http${envVars.SSL && "s"}://${envVars.HOST}${envVars.PORT ? ":" + envVars.PORT : ""}/setup`,
+  )
+  .use(
+    new Elysia({ prefix: "/client" }).use(
+      staticPlugin({ assets: CLIENT_FOLDER, prefix: "" }),
+    ),
+  )
+  .group("/api", (g) =>
+    g
+      .get("/clients", () =>
+        [...clients.values()].map((i) => ({
+          name: i.name,
+          flags: i.flags,
+        })),
+      )
+      .get("/migration", () => MIGRATION_LEVEL),
+  )
+
   .ws("/ws", {
     body: C2SPacket,
     // headers: z.object({
