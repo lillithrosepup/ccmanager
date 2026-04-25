@@ -43,7 +43,14 @@ async function renderTemplate(
 }
 
 const server = new Elysia()
-  .use(logixlysia())
+  .use(
+    logixlysia({
+      config: {
+        customLogFormat:
+          "{now} {method} {pathname} {status} {duration} {message}{speed}",
+      },
+    }),
+  )
   .get("/setup", ({ headers }) =>
     headers["user-agent"]?.includes("computercraft")
       ? renderTemplate("setup", {
@@ -69,7 +76,7 @@ const server = new Elysia()
       .get("/migration", () => MIGRATION_LEVEL),
   )
 
-  .ws("/ws", {
+  .ws("/", {
     body: C2SPacket,
     // headers: z.object({
     //   Authorization: z.string(),
@@ -96,7 +103,7 @@ const server = new Elysia()
         },
       });
 
-      console.log("New Node:", ws.data.query);
+      ws.data.store.logger.info(ws.data.request, "New Node:", ws.data.query);
 
       sendAll({
         t: "nodeConnect",
@@ -107,7 +114,8 @@ const server = new Elysia()
     async message(ws, p) {
       const client = clients.get(ws.data.query.nodeName);
       if (!client) {
-        console.error(
+        ws.data.store.logger.error(
+          ws.data.request,
           `Client ${ws.data.query.nodeName} is not in clients map!`,
         );
         ws.close();
@@ -115,17 +123,27 @@ const server = new Elysia()
       }
       const handler = C2SHandlers[p.t];
       if (!handler) {
-        console.error("Unknown packet type:", p.t);
+        ws.data.store.logger.error(
+          ws.data.request,
+          `Unknown packet type: ${p.t}`,
+        );
         return;
       }
       try {
-        await handler(p, client);
+        await handler(p, client, ws.data.store);
       } catch (e) {
-        console.error("Error in packet handler!", e, client, p);
+        ws.data.store.logger.error(
+          ws.data.request,
+          "Error in packet handler!",
+          { e, client, p },
+        );
       }
     },
     close(ws) {
-      console.log(`Client ${ws.data.query.nodeName} disconnected`);
+      ws.data.store.logger.info(
+        ws.data.request,
+        `Client ${ws.data.query.nodeName} disconnected`,
+      );
       clients.delete(ws.data.query.nodeName);
       sendAll({
         t: "nodeDisconnect",
@@ -135,5 +153,4 @@ const server = new Elysia()
     },
   });
 
-console.log("Server listening on port 3000");
 server.listen(3000);

@@ -1,10 +1,14 @@
 import type { MaybePromise } from "bun";
 import z from "zod";
 import { clients, sendAll, type Client } from ".";
+import type { Logger, Pino } from "logixlysia";
 
 export const S2CPacket = z.discriminatedUnion("t", [
   z.object({
     t: z.literal("update"),
+  }),
+  z.object({
+    t: z.literal("reboot"),
   }),
   z.object({
     t: z.literal("nodeConnect"),
@@ -19,9 +23,10 @@ export const S2CPacket = z.discriminatedUnion("t", [
 ]);
 
 export const C2SPacket = z.discriminatedUnion("t", [
-  z.object({ t: z.literal("globalUpdate") }),
+  z.object({ t: z.literal("update") }),
+  z.object({ t: z.literal("reboot"), client: z.string() }),
   z.object({
-    t: z.literal("sendToClient"),
+    t: z.literal("send"),
     client: z.string(),
     packet: S2CPacket,
   }),
@@ -29,14 +34,31 @@ export const C2SPacket = z.discriminatedUnion("t", [
 
 export const C2SHandlers: Record<
   string,
-  (data: z.infer<typeof C2SPacket>, client: Client) => MaybePromise<void>
+  (
+    data: z.infer<typeof C2SPacket>,
+    client: Client,
+    store: {},
+  ) => MaybePromise<void>
 > = {
-  globalUpdate: (data) => {
-    if (data.t !== "globalUpdate") return;
+  update: (data) => {
+    if (data.t !== "update") return;
     sendAll({ t: "update" });
   },
-  sendToClient: (data, client) => {
-    if (data.t !== "sendToClient") return;
+  reboot: (data) => {
+    if (data.t !== "reboot") return;
+    switch (data.client) {
+      case "all":
+        sendAll({ t: "reboot" });
+        break;
+      default: {
+        const targetClient = clients.get(data.client);
+        if (!targetClient) return;
+        targetClient.send({ t: "reboot" });
+      }
+    }
+  },
+  send: (data, client) => {
+    if (data.t !== "send") return;
     switch (data.client) {
       case "all":
         sendAll(data.packet);
