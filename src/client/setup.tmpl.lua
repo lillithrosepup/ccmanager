@@ -20,8 +20,8 @@ if not fs.isDir("/ccmgr") then
   fs.makeDir("/ccmgr")
 end
 
-if not fs.isDir("/ccmgr/core") then
-  fs.makeDir("/ccmgr/core")
+if not fs.isDir("/ccmgr/lib") then
+  fs.makeDir("/ccmgr/lib")
 end
 
 local luaBase = "http" .. ({isSSL} and "s" or "") .. "://{connectHost}:{connectPort}/client"
@@ -51,6 +51,8 @@ downloadFile("/lib/utils.lua", "/ccmgr/lib/utils.lua")
 downloadFile("/lib/program.lua", "/ccmgr/lib/program.lua")
 
 downloadFile("/lib/completion.lua", "/ccmgr/lib/completion.lua")
+
+downloadFile("/lib/state.lua", "/ccmgr/lib/state.lua")
 
 downloadFile("/lib/ccmgr.lua", "/ccmgr/lib/ccmgr.lua")
 

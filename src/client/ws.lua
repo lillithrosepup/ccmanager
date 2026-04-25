@@ -47,20 +47,6 @@ function unregisterPacketHandler(type)
   packetHandlers[type] = nil
 end
 
-registerPacketHandler(
-  "reboot",
-  function()
-    os.reboot()
-  end
-)
-
-registerPacketHandler(
-  "update",
-  function()
-    os.run({}, "/startup/boot.lua", "update")
-  end
-)
-
 function handleMessage()
   local event, connUrl, packetString = os.pullEvent("websocket_message")
 
@@ -71,12 +57,15 @@ function handleMessage()
       print("Received: ", packetString)
     end
 
-    if packetHandlers[t] then
+    if packetHandlers[packet.t] then
       pcall(packetHandlers[packet.t], packet)
     else
       printError("Unknown packet type: " .. packet.t)
     end
   end
+  -- for my sanity incase it gets overwritten
+  -- WHY THE FUCK DOES IT CRASH IT
+  -- multishell.setTitle(multishell.getCurrent(), "Websocket Runner")
 end
 
 function handleClose()

@@ -90,7 +90,7 @@ const server = new Elysia()
     }),
     open(ws) {
       // TODO: auth
-      clients.set(ws.data.query.nodeName, {
+      const client: Client = {
         wsId: ws.id,
         name: ws.data.query.nodeName,
         flags: ws.data.query.flags || [],
@@ -101,7 +101,8 @@ const server = new Elysia()
         sendPostValidation(data) {
           ws.send(data);
         },
-      });
+      };
+      clients.set(ws.data.query.nodeName, client);
 
       ws.data.store.logger.info(ws.data.request, "New Node:", ws.data.query);
 
@@ -110,6 +111,17 @@ const server = new Elysia()
         name: ws.data.query.nodeName,
         flags: ws.data.query.flags || [],
       });
+
+      for (const client of [...clients.values()]) {
+        if (client.wsId == ws.id) continue;
+        ws.send(
+          S2CPacket.parse({
+            t: "nodeConnect",
+            name: client.name,
+            flags: client.flags,
+          }),
+        );
+      }
     },
     async message(ws, p) {
       const client = clients.get(ws.data.query.nodeName);

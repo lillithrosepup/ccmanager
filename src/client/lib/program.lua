@@ -1,6 +1,6 @@
 local program = {
   download = function(url, path, alias, completion)
-    local success = ccmgr.net.downloadFile(url, path)
+    local success = ccmgr.net.downloadFile("/client" .. url, path)
     if not success then
       return false
     end

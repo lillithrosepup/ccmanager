@@ -1,10 +1,7 @@
-print("Downloading core files...")
-
-if fs.exists("/ccmgr/core") then
-  fs.delete("/ccmgr/core")
+if fs.exists("/ccmgr/lib") then
+  fs.delete("/ccmgr/lib")
 end
 
-print("Downloading core files...")
 print("Downloading boot.lua...")
 ccmgr.net.downloadFile("/client/boot.lua", "/startup/boot.lua")
 
@@ -22,6 +19,9 @@ ccmgr.net.downloadFile("/client/lib/program.lua", "/ccmgr/lib/program.lua")
 
 print("Downloading completion.lua...")
 ccmgr.net.downloadFile("/client/lib/completion.lua", "/ccmgr/lib/completion.lua")
+
+print("Downloading state.lua...")
+ccmgr.net.downloadFile("/client/lib/state.lua", "/ccmgr/lib/state.lua")
 
 print("Downloading ccmgr.lua...")
 ccmgr.net.downloadFile("/client/lib/ccmgr.lua", "/ccmgr/lib/ccmgr.lua")

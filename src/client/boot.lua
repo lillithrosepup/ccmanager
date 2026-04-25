@@ -2,13 +2,14 @@ local monitor = peripheral.find("monitor")
 if monitor then
   monitor.clear()
 end
+print("BL: Stage 1")
 
 if shell then
   shell.setAlias("boot", "/startup/boot.lua")
 
   local completion = require("cc.shell.completion")
 
-  local complete = completion.build({completion.choice, {"update", "boot"}})
+  local complete = completion.build({completion.choice, {"update"}})
 
   shell.setCompletionFunction(shell.getRunningProgram(), complete)
 end
@@ -17,6 +18,7 @@ os.loadAPI("/ccmgr/lib/ccmgr.lua")
 os.loadAPI("/ccmgr/lib/config.lua")
 os.loadAPI("/ccmgr/lib/net.lua")
 os.loadAPI("/ccmgr/lib/utils.lua")
+os.loadAPI("/ccmgr/lib/state.lua")
 
 local tArgs = {...}
 
@@ -42,8 +44,6 @@ if tArgs[1] == "update" or migLevel ~= ccmgr.config.get("boot.migrationLevel") t
   return os.reboot()
 end
 
-print("Booting...")
-
 local success
 
 ccmgr.config.define(
@@ -66,7 +66,7 @@ if not success then
   os.reboot()
 end
 
-print("Running boot.lua")
+print("BL: Stage 2")
 
 local success = pcall(shell.run, "/run/main.lua")
 if not success then
