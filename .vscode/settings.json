@@ -12,8 +12,12 @@
     "settings",
     "printError",
     "http",
+    "peripheral",
+    "sleep",
+    "socket"
   ],
   "Lua.diagnostics.disable": [
-    "deprecated"
+    "deprecated",
+    "undefined-field"
   ]
 }

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global -- needed for templating
 function setConfig(name, val)
   settings.set("ccmgr." .. name, val)
 end
@@ -26,7 +27,7 @@ end
 
 local luaBase = "http" .. ({isSSL} and "s" or "") .. "://{connectHost}:{connectPort}/client"
 
-function downloadFile(url, path)
+local function downloadFile(url, path)
   local file = http.get(luaBase .. url)
   if not file then
     print("Failed to download " .. url)

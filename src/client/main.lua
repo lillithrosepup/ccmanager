@@ -9,10 +9,10 @@ if fs.exists("/run") then
 end
 fs.makeDir("/run")
 
-ccmgr.program.download("/ws.lua", "/run/ws.lua", false, false)
+ccmgr.program.download("/ws.lua", "/run/ws.lua", nil, false)
 os.loadAPI("/run/ws.lua")
 
-ccmgr.program.download("/wsPackets.lua", "/run/wsPackets.lua", false, false)
+ccmgr.program.download("/wsPackets.lua", "/run/wsPackets.lua", nil, false)
 require("/run/wsPackets")
 
 ccmgr.program.run("/run/ws.lua", "Websocket Runner", false, "loop")
@@ -30,6 +30,6 @@ ccmgr.config.define(
   }
 )
 if ccmgr.config.get("feat.airship") then
-  ccmgr.program.download("/features/airship.lua", "/run/airship.lua", false, false)
+  ccmgr.program.download("/features/airship.lua", "/run/airship.lua", nil, false)
   ccmgr.program.run("/run/airship.lua", "Airship", true, false)
 end
