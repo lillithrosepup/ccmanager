@@ -1,13 +1,7 @@
-local function downloadFile(url, path)
-    local fileContents = ccmgr.net.get(url, true, true)
-    if fileContents == false then
-        return false
-    end
-    local file = fs.open(path, "w")
-    file.write(fileContents)
-    file.close()
-    return true
-end
+---@class CCMNet
+---@field downloadFile fun(url: string, path: string): boolean
+---@field get fun(url: string, nocreds?: boolean, nolog?: boolean): false | string
+---@field post fun(url: string, data: string): false | string
 
 local function get(url, nocreds, nolog)
     local url = url
@@ -75,8 +69,21 @@ local function post(url, data)
     return fileContents
 end
 
-ccmgr.net = {
+local function downloadFile(url, path)
+    local fileContents = get(url, true, true)
+    if fileContents == false then
+        return false
+    end
+    local file = fs.open(path, "w")
+    file.write(fileContents)
+    file.close()
+    return true
+end
+
+---@type CCMNet
+local net = {
     downloadFile = downloadFile,
     get = get,
     post = post
 }
+ccmgr.net = net

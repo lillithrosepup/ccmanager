@@ -16,9 +16,11 @@ end
 
 os.loadAPI("/ccmgr/lib/ccmgr.lua")
 os.loadAPI("/ccmgr/lib/config.lua")
-os.loadAPI("/ccmgr/lib/net.lua")
-os.loadAPI("/ccmgr/lib/utils.lua")
 os.loadAPI("/ccmgr/lib/state.lua")
+os.loadAPI("/ccmgr/lib/utils.lua")
+os.loadAPI("/ccmgr/lib/net.lua")
+ccmgr.program = require("/ccmgr/lib/program")
+ccmgr.completion = require("/ccmgr/lib/completion")
 
 local tArgs = {...}
 

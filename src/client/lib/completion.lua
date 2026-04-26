@@ -1,23 +1,33 @@
-local completion = {
+---@class CCMCompletion
+---@field helpText string[]
+---@field requiredArgs number
+---@field completionFunction nil|fun(): string[]
+---@field setHelpText fun(text: string)
+---@field setRequiredArgs fun(args: number)
+---@field setCompletionFunction fun(func: fun(): string[]|nil)
+---@field registerComplDependency fun(deps: string[])
+---@field updateComplDependency fun(dep: string)
+---@field check fun(args: string[]): boolean
+
+local state = {
   helpText = {},
   requiredArgs = 0,
   completionFunction = nil
 }
 
-completion.setHelpText = function(text)
-  table.insert(completion.helpText, text)
+local function setHelpText(text)
+  table.insert(state.helpText, text)
 end
 
-completion.setRequiredArgs = function(args)
-  completion.requiredArgs = args
+local function setRequiredArgs(args)
+  state.requiredArgs = args
 end
 
-completion.setCompletionFunction = function(func)
-  completion.completionFunction = func
+local function setCompletionFunction(func)
+  state.completionFunction = func
 end
 
----@param deps string[]
-completion.registerComplDependency = function(deps)
+local function registerComplDependency(deps)
   for _, compl in ipairs(ccmgr.state.completionRegistry) do
     if compl.program == shell.getRunningProgram() then
       return
@@ -32,8 +42,7 @@ completion.registerComplDependency = function(deps)
   )
 end
 
--- TODO: why the fuck is this not being called
-completion.updateComplDependency = function(dep)
+local function updateComplDependency(dep)
   for _, compl in ipairs(ccmgr.state.completionRegistry) do
     if ccmgr.utils.list.contains(compl.deps, dep) then
       shell.run(compl.program .. " completion")
@@ -41,10 +50,10 @@ completion.updateComplDependency = function(dep)
   end
 end
 
-completion.check = function(args)
+local function check(args)
   if #args == 1 and args[1] == "completion" then
-    local completionFunction = completion.completionFunction()
-    shell.setCompletionFunction(shell.getRunningProgram(), completionFunction)
+    local f = state.completionFunction()
+    shell.setCompletionFunction(shell.getRunningProgram(), f)
     return false
   end
 
@@ -56,9 +65,8 @@ completion.check = function(args)
     end
   end
 
-  if isHelp or #args < completion.requiredArgs then
-    -- Split by \n
-    for i, line in pairs(completion.helpText) do
+  if isHelp or #args < state.requiredArgs then
+    for i, line in pairs(state.helpText) do
       print(line)
     end
     return false
@@ -67,4 +75,14 @@ completion.check = function(args)
   return true
 end
 
-return completion
+return {
+  helpText = state.helpText,
+  requiredArgs = state.requiredArgs,
+  completionFunction = state.completionFunction,
+  setHelpText = setHelpText,
+  setRequiredArgs = setRequiredArgs,
+  setCompletionFunction = setCompletionFunction,
+  registerComplDependency = registerComplDependency,
+  updateComplDependency = updateComplDependency,
+  check = check
+}

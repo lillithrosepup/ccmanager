@@ -1,6 +1,4 @@
-local completion = require("/ccmgr/lib/completion")
-
-completion.setCompletionFunction(
+ccmgr.completion.setCompletionFunction(
   function()
     local ccCompletion = require("cc.shell.completion")
     local possibleNodes = {}
@@ -15,15 +13,15 @@ completion.setCompletionFunction(
   end
 )
 
-completion.setHelpText("Usage: airship <node>")
-completion.setHelpText("Control an airship!")
+ccmgr.completion.setHelpText("Usage: airship <node>")
+ccmgr.completion.setHelpText("Control an airship!")
 
-completion.setRequiredArgs(1)
+ccmgr.completion.setRequiredArgs(1)
 
 local tArgs = {...}
-completion.registerComplDependency({"nodeAddRemove"})
+ccmgr.completion.registerComplDependency({"nodeAddRemove"})
 
-if not completion.check(tArgs) then
+if not ccmgr.completion.check(tArgs) then
   return
 end
 

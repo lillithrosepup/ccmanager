@@ -1,14 +1,16 @@
----@alias NodeRegistry table<string, Node>
 ---@class Node
 ---@field name string
 ---@field flags string[]
 
----@alias CompletionRegistry Completion[]
 ---@class Completion
 ---@field program string
 ---@field deps string[]
 
----@type {nodeRegistry: NodeRegistry, completionRegistry: CompletionRegistry}
+---@class CCMState
+---@field nodeRegistry table<string, Node>
+---@field completionRegistry Completion[]
+
+---@type CCMState
 ccmgr.state = {
   nodeRegistry = {},
   completionRegistry = {}

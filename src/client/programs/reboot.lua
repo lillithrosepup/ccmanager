@@ -1,6 +1,4 @@
-local completion = require("/ccmgr/lib/completion")
-
-completion.setCompletionFunction(
+ccmgr.completion.setCompletionFunction(
   function()
     local ccCompletion = require("cc.shell.completion")
     local possibleNodes = {}
@@ -13,16 +11,16 @@ completion.setCompletionFunction(
   end
 )
 
-completion.setHelpText("Usage: reboot [node]")
-completion.setHelpText("Reboots self, or a specified node")
+ccmgr.completion.setHelpText("Usage: reboot [node]")
+ccmgr.completion.setHelpText("Reboots self, or a specified node")
 
-completion.setRequiredArgs(0)
+ccmgr.completion.setRequiredArgs(0)
 
-completion.registerComplDependency({"nodeAddRemove"})
+ccmgr.completion.registerComplDependency({"nodeAddRemove"})
 
 local tArgs = {...}
 
-if not completion.check(tArgs) then
+if not ccmgr.completion.check(tArgs) then
   return
 end
 

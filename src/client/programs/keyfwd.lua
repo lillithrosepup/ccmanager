@@ -1,6 +1,4 @@
-local completion = require("/ccmgr/lib/completion")
-
-completion.setCompletionFunction(
+ccmgr.completion.setCompletionFunction(
   function()
     local ccCompletion = require("cc.shell.completion")
     local possibleNodes = {}
@@ -13,17 +11,17 @@ completion.setCompletionFunction(
   end
 )
 
-completion.setHelpText("Usage: keyfwd <node>")
-completion.setHelpText(
+ccmgr.completion.setHelpText("Usage: keyfwd <node>")
+ccmgr.completion.setHelpText(
   "Forwards all keys to a specified node. This will be handled differently depending on its features."
 )
 
-completion.setRequiredArgs(1)
+ccmgr.completion.setRequiredArgs(1)
 
 local tArgs = {...}
-completion.registerComplDependency({"nodeAddRemove"})
+ccmgr.completion.registerComplDependency({"nodeAddRemove"})
 
-if not completion.check(tArgs) then
+if not ccmgr.completion.check(tArgs) then
   return
 end
 

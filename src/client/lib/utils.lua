@@ -1,4 +1,8 @@
-function string.split(self, sep)
+---@class CCMUtils
+---@field string {split: fun(self: string, sep?: string): string[]}
+---@field list {contains: fun(self: string[], match: string): boolean}
+
+local function split(self, sep)
   local sep, fields = sep or ":", {}
   local pattern = string.format("([^%s]+)", sep)
   self:gsub(
@@ -10,7 +14,7 @@ function string.split(self, sep)
   return fields
 end
 
-function listContains(self, match)
+local function listContains(self, match)
   for i, value in ipairs(self) do
     if value == match then
       return true
@@ -19,11 +23,13 @@ function listContains(self, match)
   return false
 end
 
-ccmgr.utils = {
+---@type CCMUtils
+local utils = {
   string = {
-    split = string.split
+    split = split
   },
   list = {
     contains = listContains
   }
 }
+ccmgr.utils = utils

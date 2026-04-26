@@ -1,0 +1,7 @@
+---@class Ccmgr
+---@field state CCMState
+---@field config CCMConfig
+---@field net CCMNet
+---@field utils CCMUtils
+---@field completion CCMCompletion
+---@field program CCMProgram
