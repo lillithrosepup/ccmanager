@@ -46,8 +46,7 @@ const server = new Elysia()
   .use(
     logixlysia({
       config: {
-        customLogFormat:
-          "{now} {method} {pathname} {status} {duration} {message}{speed}",
+        customLogFormat: "{method} {pathname} {status} {message}",
       },
     }),
   )

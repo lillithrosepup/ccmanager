@@ -4,6 +4,9 @@
     "ccmgr",
     "multishell",
     "fs",
-    "ws"
+    "ws",
+    "keys",
+    "textutils",
+    "redstone"
   ]
 }

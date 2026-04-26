@@ -20,6 +20,14 @@ export const S2CPacket = z.discriminatedUnion("t", [
     name: z.string(),
     flags: z.array(z.string()),
   }),
+  z.object({
+    t: z.literal("keyDown"),
+    keyCode: z.number(),
+  }),
+  z.object({
+    t: z.literal("keyUp"),
+    keyCode: z.number(),
+  }),
 ]);
 
 export const C2SPacket = z.discriminatedUnion("t", [
