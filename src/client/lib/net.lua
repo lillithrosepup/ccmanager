@@ -8,7 +8,7 @@ local function get(url, nocreds, nolog)
     if url:find("^/") then
         url =
             "http" ..
-            (ccmgr.config.get("boot.ssl") and "s" or "") ..
+            (ccmgr.config.get("boot.ssl") ~= "false" and "s" or "") ..
                 "://" .. ccmgr.config.get("boot.host") .. ":" .. ccmgr.config.get("boot.port") .. url
     end
     if ccmgr.config.get("debug") and not nolog then
@@ -27,7 +27,7 @@ local function get(url, nocreds, nolog)
         if nolog then
             print("GET: " .. url)
         end
-        printError("GET failed: ", e)
+        printError("GET", url, "failed: ", e)
         return false
     end
     local fileContents = file.readAll()
