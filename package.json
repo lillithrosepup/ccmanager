@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "bun src/server/index.ts",
-    "dev": "bun --watch src/server/index.ts"
+    "dev": "bun --watch src/server/index.ts",
+    "build": "bun build src/server/index.ts --compile --outfile ./server.bin"
   },
   "private": true,
   "devDependencies": {
