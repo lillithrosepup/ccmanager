@@ -12,5 +12,6 @@ FROM oven/bun as prod
 
 WORKDIR /ccmgr
 COPY --from=builder /build/server.bin /ccmgr/server.bin
+COPY /src/client /ccmgr/client
 
 ENTRYPOINT [ "/ccmgr/server.bin" ]

@@ -24,7 +24,10 @@ export function sendAll(data: z.input<typeof S2CPacket>) {
   }
 }
 
-const CLIENT_FOLDER = join(import.meta.dir, "../client");
+const CLIENT_FOLDER =
+  envVars.NODE_ENV === "production"
+    ? "/ccmgr/client"
+    : join(import.meta.dir, "../client");
 
 async function renderTemplate(
   fileName: string,
