@@ -7,7 +7,7 @@ local wsUrl =
       ccmgr.config.get("boot.host") .. ":" .. ccmgr.config.get("boot.port") .. "/?nodeName=" .. os.getComputerLabel()
 
 if ccmgr.config.get("feat.airship") then
-  wsUrl = wsUrl .. "&flags=airshi"
+  wsUrl = wsUrl .. "&flags=airship"
 end
 
 if tArgs[1] == "loop" then
